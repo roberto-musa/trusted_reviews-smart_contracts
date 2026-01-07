@@ -13,8 +13,12 @@ contract SimpleStorage {        // Contratto di esempio per illustrare la strutt
 
     // 3. Modificatori
     modifier onlyOwner() {
-        require(msg.sender == owner, "Not the owner");
+        _onlyOwner();
         _;
+    }
+
+    function _onlyOwner() internal {
+        require(msg.sender == owner, "Not the owner");
     }
 
     // 4. Costruttore

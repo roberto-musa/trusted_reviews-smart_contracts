@@ -5,7 +5,7 @@ pragma solidity ^0.8.20;
 // 1. Import della libreria di test Forge
 //    - Test.sol fornisce funzioni di asserzione (assertEq, assertTrue, ecc.)
 //    - Espone anche l'oggetto `vm` con le cheatcode (vm.prank, vm.expectRevert, ecc.) [web:151][web:165]
-import {Test, console} from "../lib/forge-std/src/Test.sol";
+import {Test} from "../lib/forge-std/src/Test.sol";
 
 // 2. Import del contratto da testare
 import {SimpleStorage} from "../src/SimpleStorage.sol";

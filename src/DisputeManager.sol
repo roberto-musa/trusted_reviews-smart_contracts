@@ -30,7 +30,7 @@ contract DisputeManager is Ownable {
         Party winner;
     }
 
-    IERC20 public immutable stakeToken;
+    IERC20 public immutable STAKE_TOKEN;
     address public treasury;
 
     uint256 public businessStakeAmount;
@@ -86,7 +86,7 @@ contract DisputeManager is Ownable {
         }
         require(_treasuryFeeBps <= 10_000, "Fee too high"); // max 100%
 
-        stakeToken = _stakeToken;
+        STAKE_TOKEN = _stakeToken;
         treasury = _treasury;
         businessStakeAmount = _businessStakeAmount;
         userStakeAmount = _userStakeAmount;
@@ -126,7 +126,7 @@ contract DisputeManager is Ownable {
 
         // Trasferisce lo stake dal business al contratto
         // Richiede che msg.sender abbia fatto approve verso questo contratto
-        bool ok = stakeToken.transferFrom(
+        bool ok = STAKE_TOKEN.transferFrom(
             msg.sender,
             address(this),
             businessStakeAmount
@@ -161,7 +161,7 @@ contract DisputeManager is Ownable {
             revert AlreadyDefended();
         }
 
-        bool ok = stakeToken.transferFrom(
+        bool ok = STAKE_TOKEN.transferFrom(
             msg.sender,
             address(this),
             userStakeAmount
@@ -229,7 +229,7 @@ contract DisputeManager is Ownable {
 
     function _payout(address to, uint256 amount) internal {
         if (amount == 0) return;
-        bool ok = stakeToken.transfer(to, amount);
+        bool ok = STAKE_TOKEN.transfer(to, amount);
         require(ok, "Token transfer failed");
     }
 }

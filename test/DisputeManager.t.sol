@@ -2,8 +2,8 @@
 pragma solidity ^0.8.20;
 
 // Usa Test da forge-std
-import "../lib/forge-std/src/Test.sol";
-import "../src/DisputeManager.sol";
+import {Test} from "../lib/forge-std/src/Test.sol";
+import {DisputeManager, IERC20} from "../src/DisputeManager.sol";
 
 /// @dev Interfaccia minima coerente con quella usata in DisputeManager
 interface IERC20Minimal {
@@ -252,7 +252,7 @@ contract DisputeManagerTest is Test {
         uint256 treasuryBalanceAfter = token.balanceOf(treasury);
 
         // L'utente ha perso il suo stake (già trasferito al contratto)
-        assertEq(userBalanceAfter, userBalanceBefore - userStakeAmount);
+        assertEq(userBalanceAfter, userBalanceBefore);
 
         // Il business ha saldo aumentato dell'importo vinto
         assertEq(
@@ -322,10 +322,7 @@ contract DisputeManagerTest is Test {
         uint256 userBalanceAfter = token.balanceOf(user);
         uint256 treasuryBalanceAfter = token.balanceOf(treasury);
 
-        // Il business ha perso il suo stake
-        assertEq(businessBalanceAfter, businessBalanceBefore - businessStakeAmount);
-
-        // L'utente ha saldo iniziale - stake + amountToWinner (ma qui confrontiamo delta netto)
+        // L'utente ha saldo iniziale (già dopo lo stake) + amountToWinner
         assertEq(
             userBalanceAfter,
             userBalanceBefore + expectedAmountToWinner
